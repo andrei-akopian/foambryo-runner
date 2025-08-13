@@ -1,0 +1,5 @@
+icecream
+foambryo[viewing]
+cellpose[gui]
+scikit-image
+delaunay-watershed-3d

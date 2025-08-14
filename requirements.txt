@@ -1,4 +1,6 @@
 icecream
+polyscope>=1.2.0
+matplotlib>=3.3.1
 foambryo[viewing]
 cellpose[gui]
 scikit-image

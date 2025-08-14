@@ -1,8 +1,38 @@
 
+## Installation
+
+Downlaod the repo and run it as a normal python3 script.
+
+**General**
+```bash
+git clone https://github.com/andrei-akopian/foambryo-runner
+cd foambryo-runner
+pip3 install -r requirements.txt
+```
+
+For **Unix/Linux and MacOS**, I made an install script. (Warning, it uses virtual environment)
+```bash
+curl https://raw.githubusercontent.com/andrei-akopian/foambryo-runner/refs/heads/main/install-macos-unix.sh | sh
+```
+
+## Usage
+The foambryo_runner_v001.py works by itself, so you can just copy it to other files or wherever.
+
+`python3 foambryo_runner_v001.py --help`
+
+`python3 foambryo_runner_v001.py Cshaper_4_cells_min-d-3.vtk`
+
+My script automatically checks the file format, and decides what to do with it. If you give it a (segmentated) .tiff file (produced using [cellpose](https://www.cellpose.org/) for example), it will reconstruct the mesh and save it for later use. For higher resolution mesh use `-d 1` (default is `-d 3`)
+
+`python3 foambryo_runner_v001.py -d 1 segmentation.tiff` (high resolution mesh, slow, saves as `segmentation_min-d-1.vtk`)
+
+`python3 foambryo_runner_v001.py -d 3 segmentation.tiff` (low resolution mesh, fast, saves as `segmentation_min-d-3.vtk`)
+
+## Misc
+
 Common issues: Recurring nuisances are going to be the following:
 - `python` vs `python3` and `pip` vs `pip3` (if one of these doesn't work, change the command to the other.)
 - These tools were initially developed as libraries or commandline only (to be quickly used as part of larger workflows) so activating GUIs requires more steps.
-- 2D vs 3D. Everything runs faster in 2D and file sizes are much less. 2D is usually the default. For 3D, the Z-layer has to be specifically manually activated.
 - Platform and package versions. These are unavoidable and annoying. For example, some code works only on GPUs, but Macbooks have an integrated-GPU, which makes all GPU related settings ambiguous.
 
 ## Cellpose

@@ -21,7 +21,6 @@ __version__ = "1.0.0"
 import argparse
 import pathlib
 from foambryo.pressure_inference import infer_pressures
-from icecream import ic
 from foambryo.tension_inference import infer_tensions
 from foambryo.viewing import plot_force_inference, plot_tension_inference, ps
 from foambryo.dcel import DcelData
@@ -29,10 +28,9 @@ from foambryo.io import get_default_mesh_reconstruction_algorithm, dcel_mesh_fro
 
 parser = argparse.ArgumentParser(
                     prog='Foambryo runner',
-                    description='Takes segmentation as input and processes it.',
-                    epilog='https://github.com/VirtualEmbryo/foambryo')
-parser.add_argument('-f', '--force',
-    action='store_true')
+                    description='Takes segmentation as input and creates a foambryo visualization.',
+                    epilog='Example: python3 foambryo_runner_v001.py Cshaper_4_cells_min-d-3.vtk\nDocumentation: https://github.com/andrei-akopian/foambryo-runner')
+# parser.add_argument('-f', '--force', action='store_true')
 parser.add_argument('-d','--min-distance',help="min distances between mesh nodes. default 3. integers only. Decrease for higher res, increase for speed.",default=3,type=int)
 parser.add_argument('filename')
 parser.add_argument('-t','--save-tensions',help="Saves the tensions to a file.",action='store_true')
@@ -54,14 +52,14 @@ ps.set_program_name(filename) # https://polyscope.run/py/basics/program_options/
 if suffix == '.tif':
     # Manually run dcel_mesh_from_segmentation_mask internal code to grab internal variables
     # https://github.com/VirtualEmbryo/foambryo/blob/144b387dc76e517be316448a379057e2820aa9f7/src/foambryo/io.py#L41
-    ic("Reading Image...")
+    print("Reading Image...")
     import skimage.io as io
     segmentation_mask = io.imread(filename)
-    ic("...Image read")
+    print("...Image read")
     mesh_reconstruction_algorithm = get_default_mesh_reconstruction_algorithm(min_distance,print_info=True)
-    ic("Starting to reconstruct mesh from segementation mask...")
+    print("Starting to reconstruct mesh from segementation mask (this might take a few minutes)...")
     points, triangles, labels = mesh_reconstruction_algorithm.construct_mesh_from_segmentation_mask(segmentation_mask)
-    ic("...Finished to reconstruct mesh from segementation mask")
+    print("...Finished to reconstruct mesh from segementation mask")
     # labels variable is necessary for saving meshes but impossible to access without hijacking
     mesh = DcelData(points, triangles, labels)
     save_mesh_to_vtk = True
@@ -86,14 +84,14 @@ if save_mesh_to_vtk:
 
 dict_tensions: dict
 if args.save_tensions:
-    ic("Printing Tension Information")
-    dict_tensions = ic(infer_tensions(mesh,mean_tension=1,mode='YD'))
+    print("Printing Tension Information")
+    dict_tensions = print(infer_tensions(mesh,mean_tension=1,mode='YD'))
     #TODO add save to file
 if args.save_pressures:
-    ic("Printing Pressures Information")
+    print("Printing Pressures Information")
     if not(args.save_tensions):
         dict_tensions = infer_tensions(mesh,mean_tension=1,mode='YD')
-    pressures = ic(infer_pressures(mesh,dict_tensions))
+    pressures = print(infer_pressures(mesh,dict_tensions))
     #TODO add save to file
 
 # Infer and view the forces

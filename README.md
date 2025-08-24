@@ -18,15 +18,18 @@ curl https://raw.githubusercontent.com/andrei-akopian/foambryo-runner/refs/heads
 ## Usage
 The foambryo_runner_v001.py works by itself, so you can just copy it to other files or wherever.
 
-`python3 foambryo_runner_v001.py --help`
+`./foambryo_runner_v001.py --help`
 
-`python3 foambryo_runner_v001.py Cshaper_4_cells_min-d-3.vtk`
+`./foambryo_runner_v001.py Cshaper_4_cells_min-d-3.vtk`
 
 My script automatically checks the file format, and decides what to do with it. If you give it a (segmentated) .tiff file (produced using [cellpose](https://www.cellpose.org/) for example), it will reconstruct the mesh and save it for later use. For higher resolution mesh use `-d 1` (default is `-d 3`)
 
-`python3 foambryo_runner_v001.py -d 1 segmentation.tiff` (high resolution mesh, slow, saves as `segmentation_min-d-1.vtk`)
+`./foambryo_runner_v001.py -d 1 segmentation.tiff` (high resolution mesh, slow, saves as `segmentation_min-d-1.vtk`)
 
-`python3 foambryo_runner_v001.py -d 3 segmentation.tiff` (low resolution mesh, fast, saves as `segmentation_min-d-3.vtk`)
+`./foambryo_runner_v001.py -d 3 segmentation.tiff` (low resolution mesh, fast, saves as `segmentation_min-d-3.vtk`)
+
+> [!TIP]
+> The virtual environment is located at `/.venv-foambryo-runner/`. Activate it with `source .venv-foambryo-runner/bin/activate` and deactivate with `deactivate`. Don't do that to prevent unskilled users from using it my environment elsewhere.
 
 ## Misc
 

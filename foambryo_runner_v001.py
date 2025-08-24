@@ -1,4 +1,4 @@
-#!/.venv-foambryo-runner/bin/python3
+#! ./.venv-foambryo-runner/bin/python3
 """
 Foambryo runner that calculates meshes, tensions, pressures, etc. and automatically saves them to files.
 The script contains heavy I/O and UX functionality, which overrides the foambryo library on several occasions. Further modifications might be difficult.

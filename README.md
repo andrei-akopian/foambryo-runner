@@ -1,3 +1,4 @@
+Script for processing files using [foambryo](https://github.com/VirtualEmbryo/foambryo).
 
 ## Installation
 
@@ -21,8 +22,7 @@ Open terminal and use `cd <folder>` parent folder you would like foambryo runner
 > If you are on MacOS, in Finder click with 2 fingers on the parent folder to open the menu. Then under "Services" select "New Terminal at Folder" or "New iTerm Window Here"
 
 ```bash
-curl https://raw.githubusercontent.com/andrei-akopian/foambryo-runner/refs/heads/main/install-macos-unix.sh | sh
-cd foambryo-runner
+source <(curl https://raw.githubusercontent.com/andrei-akopian/foambryo-runner/refs/heads/main/install-macos-unix.sh)
 ```
 
 **Manual Installation**
@@ -49,20 +49,30 @@ pip3 install -r requirements.txt
 > [!TIP]
 > Use the TAB key on your keyboard for auto completion of file names.
 
-`./foambryo_runner_v001.py ../foambryo-runner/Cshaper_4_cells_min-d-3.vtk` (`..` means go to the parent folder, you can then access a sibling folder if that is where your files are stored. In this example it accesses itself.)
+To stop the script use `Ctrl+C` or close the visualization window.
 
-My script automatically checks the file format, and decides what to do with it. If you give it a (segmentated) .tiff file (produced using [cellpose](https://www.cellpose.org/) for example), it will reconstruct the mesh and save it for later use. For higher resolution mesh use `-d 1` (default is `-d 3`)
+My script automatically checks the file format, and decides what to do with it. If you give it a (segmentated) .tiff file (produced using [cellpose](https://www.cellpose.org/) for example), it will reconstruct the mesh and save it for later use. (This might take several minutes, be patient.) For higher resolution mesh use `-d 1` (default is `-d 3`)
 
 `./foambryo_runner_v001.py -d 1 segmentation.tiff` (high resolution mesh, slow, saves as `segmentation_min-d-1.vtk`)
 
 `./foambryo_runner_v001.py -d 3 segmentation.tiff` (low resolution mesh, fast, saves as `segmentation_min-d-3.vtk`)
 
+`./foambryo_runner_v001.py -d 1 ../Images/Panc_fixed_JMR_1_cellpose_masks.tif` (high resolution mesh, slow, saves as `Panc_fixed_JMR_1_cellpose_masks_min-d-1.vtk`)
+
 > [!CAUTION]
 > If your file name has a space, it will mess up the terminal command. For example `./foambryo_runner_v001.py segmentation with spaces.tiff` 🚫 won't run. To fix, add a `\` in front of every space when running: `./foambryo_runner_v001.py segmentation\ with\ spaces.tiff` ✅
 
+Place all `.tiff` files you want to process inside the foambryo-runner folder.
+
+Alternatively, To access files outside the foambryo-runner folder, use `..`. Examples:
+- `./foambryo_runner_v001.py ../foambryo-runner/Cshaper_4_cells_min-d-3.vtk` (`..` means go to the parent folder, you can then access a sibling folder if that is where your files are stored. In this example it just goes back to its own folder instead of some other.)
+- `./foambryo_runner_v001.py -d 1 ../Images/Panc_fixed_JMR_1_cellpose_masks.tif` (accesses a sibling folder called "Images" where the segmented tif file is stored.)
+
+
+
 ### Advanced Users
 
-For advanced users. The virtual environment is located at `/.venv-foambryo-runner/`. Activate it with `source .venv-foambryo-runner/bin/activate` and deactivate with `deactivate`. Don't do that to prevent unskilled users from using it my environment elsewhere.
+For advanced users. The virtual environment is located at `/.venv-foambryo-runner/`. Activate it with `source .venv-foambryo-runner/bin/activate` and deactivate with `deactivate`. I suggest against activating a virtual environment, as unskilled users might go on to use it elsewhere and mess it up.
 
 ---
 

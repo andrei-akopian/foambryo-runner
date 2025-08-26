@@ -14,6 +14,7 @@ deactivate
 chmod +x foambryo_runner_v001.py
 echo "The foambryo_runner_v001.py is ready to go."
 python3 foambryo_runner_v001.py --help
+cd foambryo-runner
 
 # Done
 echo "To run:"

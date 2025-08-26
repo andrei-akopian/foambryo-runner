@@ -28,8 +28,8 @@ from foambryo.io import get_default_mesh_reconstruction_algorithm, dcel_mesh_fro
 
 parser = argparse.ArgumentParser(
                     prog='Foambryo runner',
-                    description='Takes segmentation as input and creates a foambryo visualization.',
-                    epilog='Example: ./foambryo_runner_v001.py Cshaper_4_cells_min-d-3.vtk\nDocumentation: https://github.com/andrei-akopian/foambryo-runner')
+                    description='Takes segmentation as input and creates a foambryo visualization. Documentation: https://github.com/andrei-akopian/foambryo-runner',
+                    epilog='Example: ./foambryo_runner_v001.py Cshaper_4_cells_min-d-3.vtk')
 # parser.add_argument('-f', '--force', action='store_true')
 parser.add_argument('-d','--min-distance',help="min distances between mesh nodes. default 3. integers only. Decrease for higher res, increase for speed.",default=3,type=int)
 parser.add_argument('filename')

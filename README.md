@@ -1,12 +1,15 @@
 Script for processing files using [foambryo](https://github.com/VirtualEmbryo/foambryo).
 
+- [MacOS Settings](./docs/macos_settings.md)
+- [Cellpose Usage](./docs/cellpose_usage.md)
+
 ## Installation
 
 For **Unix/Linux and MacOS**, I made an install script.
 
 The script will create a final folder for you, but it needs a parent folder to use as hub. The parent folder can be an existing folder or you can create a new one (avoid using spaces in folder and file names, they mess up terminal commands).
 
-For example my parent folder is called "foambryo-testing".
+For example my parent folder is "BioProjects".
 
 ```
 Parent-Folder (your existing folder)
@@ -19,7 +22,7 @@ L foambryo-runner (created automatically)
 Open terminal and use `cd <folder>` parent folder you would like foambryo runner to be stored at.
 
 > [!TIP]
-> If you are on MacOS, in Finder click with 2 fingers on the parent folder to open the menu. Then under "Services" select "New Terminal at Folder" or "New iTerm Window Here"
+> If you are on MacOS, you can set up shortcuts for opening the terminal from finder. See [docs](./docs/macos_settings.md)
 
 ```bash
 source <(curl https://raw.githubusercontent.com/andrei-akopian/foambryo-runner/refs/heads/main/install-macos-unix.sh)
@@ -27,9 +30,9 @@ source <(curl https://raw.githubusercontent.com/andrei-akopian/foambryo-runner/r
 
 **Manual Installation**
 
-(*for advanced users only*)
-
 Downlaod the repository (as zip or git clone) and run `foambryo_runner_v001.py` like a normal python3 script.
+
+or
 
 ```bash
 git clone https://github.com/andrei-akopian/foambryo-runner
@@ -40,14 +43,14 @@ pip3 install -r requirements.txt
 ## Usage
 
 > [!TIP]
-> If you are on MacOS, in Finder click with 2 fingers on the `foambryo-runner` folder to open the menu. Then under "Services" select "New Terminal at Folder" or "New iTerm Window Here".
+> If you are on MacOS, you can set up shortcuts for opening the terminal from finder. See [docs](./docs/macos_settings.md)
 
 `./foambryo_runner_v001.py --help` (prints help message)
 
 `./foambryo_runner_v001.py Cshaper_4_cells_min-d-3.vtk` (run provided example)
 
 > [!TIP]
-> Use the TAB key on your keyboard for auto completion of file names.
+> Press the TAB key on your keyboard for auto completion of file names.
 
 To stop the script use `Ctrl+C` or close the visualization window.
 
@@ -64,11 +67,13 @@ My script automatically checks the file format, and decides what to do with it. 
 
 Place all `.tiff` files you want to process inside the foambryo-runner folder.
 
-Alternatively, To access files outside the foambryo-runner folder, use `..`. Examples:
+Alternatively, to access files outside the foambryo-runner folder, use `..`. Examples:
 - `./foambryo_runner_v001.py ../foambryo-runner/Cshaper_4_cells_min-d-3.vtk` (`..` means go to the parent folder, you can then access a sibling folder if that is where your files are stored. In this example it just goes back to its own folder instead of some other.)
 - `./foambryo_runner_v001.py -d 1 ../Images/Panc_fixed_JMR_1_cellpose_masks.tif` (accesses a sibling folder called "Images" where the segmented tif file is stored.)
 
+## Two Foambryo Windows in Parallel
 
+Open a second terminal window (or tab) by pressing `Cmd+T` or the `+` at the top right of the terminal window.
 
 ### Advanced Users
 
@@ -95,12 +100,24 @@ Installing `pip install 'cellpose[gui]'`
 
 The default cellpose will run in 2d. To start it in 3d mode: `python3 -m cellpose --Zstack`
 
-On M1,M2,M3 Macs for 3D cellpose run `python -m cellpose --dir path --gpu_device mps --use_gpu --Zstack `
+On Mac's, the GPU doesn't exist / is combined with the CPU. Disabling GPU on Mac is ok.
+CUDA is a traditional GPU. Mac's don't have CUDA.
+
+~~On M1,M2,M3 Macs for 3D cellpose run `python3 -m cellpose --dir . --gpu_device mps --use_gpu --Zstack `~~ (not sure how well this works)
+
+### Troubleshooting.
+
+MPS is Mac's (sort of) GPU.
+```
+NET ERROR: MPS not working with 3D images. Disable GPU or use stitch threshold > 0
+```
+Do exactly as it days. Either turn off GPU, or set stitch threshold to between [0,1].
+> Note that min_size applies per slice when stitch_threshold is used, you will need to remove masks afterwards if you have a 3D minimum size to apply. - [Docs](https://cellpose.readthedocs.io/en/latest/do3d.html#segmentation-settings)
 
 ## FoamBryo
 
 PyPi Package: https://pypi.org/project/foambryo/
-`pip install foambryo`
+`pip3 install foambryo`
 
 https://github.com/VirtualEmbryo/foambryo2D (but we need 3d)
 
